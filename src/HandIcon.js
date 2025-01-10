@@ -8,10 +8,10 @@ const imgMap = {
   paper: paperImg,
 };
 
-function HandIcon({ value }) {
+function HandIcon({ value, className = "" }) {
   const src = imgMap[value];
   const alt = value;
-  return <img src={src} alt={alt} />;
+  return <img className={className} src={src} alt={alt} />;
 }
 
 export default HandIcon;

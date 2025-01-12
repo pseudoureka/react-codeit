@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import "./ReviewList.css";
 
 function formatDate(value) {
   return format(value, "yyyy-MM-dd");
@@ -8,8 +9,8 @@ function ReviewListItem({ item }) {
   const { title, imgUrl, rating, content, createdAt, updatedAt, id } = item;
 
   return (
-    <div>
-      <img src={imgUrl} alt={title} />
+    <div className="ReviewListItem">
+      <img className="ReviewListItem-img" src={imgUrl} alt={title} />
       <div>
         <h1>{title}</h1>
         <p>{rating}</p>

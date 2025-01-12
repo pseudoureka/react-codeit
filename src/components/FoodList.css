@@ -1,10 +1,8 @@
-.FoodListItem {
-  display: flex;
+.FoodList {
+  list-style: none;
+  padding: 0;
 }
 
-.FoodListItem-img {
-  width: 200px;
-  height: 300px;
-  object-fit: cover;
-  margin-right: 20px;
+.FoodListItem {
+  margin: 10px;
 }

@@ -1,11 +1,11 @@
 import "./FoodList.css";
 
 function FoodListItem({ item }) {
-  const { imgUrl, title, calorie, content } = item;
+  const { imgUrl, title, calorie, content, createdAt } = item;
 
   return (
     <div className="FoodListItem">
-      <img className="FoodListItem-img" src={imgUrl} alt={title} />
+      <img src={imgUrl} alt={title} />
       <div>{title}</div>
       <div>{calorie}</div>
       <div>{content}</div>
@@ -15,7 +15,7 @@ function FoodListItem({ item }) {
 
 function FoodList({ items }) {
   return (
-    <ul>
+    <ul className="FoodList">
       {items.map((item) => {
         return (
           <li>

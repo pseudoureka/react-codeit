@@ -1,4 +1,9 @@
 import "./FoodList.css";
+import { format } from "date-fns";
+
+const formatDate = (date) => {
+  return format(date, "yyyy-MM-dd");
+};
 
 function FoodListItem({ item }) {
   const { imgUrl, title, calorie, content, createdAt } = item;
@@ -9,6 +14,7 @@ function FoodListItem({ item }) {
       <div>{title}</div>
       <div>{calorie}</div>
       <div>{content}</div>
+      <div>{formatDate(createdAt)}</div>
     </div>
   );
 }

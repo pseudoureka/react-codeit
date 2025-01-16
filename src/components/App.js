@@ -1,6 +1,6 @@
 import { getReviews } from "../api";
 import ReviewList from "./ReviewList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -15,17 +15,20 @@ function App() {
     setItems(newItems);
   };
 
-  const handleLoadClick = async () => {
-    const { reviews } = await getReviews();
+  const handleLoad = async (orderQuery) => {
+    const { reviews } = await getReviews(orderQuery);
     setItems(reviews);
   };
+
+  useEffect(() => {
+    handleLoad(order);
+  }, [order]);
 
   return (
     <div>
       <button onClick={handleNewestClick}>최신순</button>
       <button onClick={handleRatingClick}>별점순</button>
       <ReviewList items={sortedItems} onDelete={handleDelete} />
-      <button onClick={handleLoadClick}>불러오기</button>
     </div>
   );
 }

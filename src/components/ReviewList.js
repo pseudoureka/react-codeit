@@ -8,7 +8,7 @@ function formatDate(value) {
 function ReviewListItem({ item, onDelete }) {
   const { title, imgUrl, rating, content, createdAt, updatedAt, id } = item;
 
-  const handleDeleteClick = () => onDelete(id);
+  const handleDelete = () => onDelete(id);
 
   return (
     <div className="ReviewListItem">
@@ -18,7 +18,7 @@ function ReviewListItem({ item, onDelete }) {
         <p>{rating}</p>
         <p>{formatDate(createdAt)}</p>
         <p>{content}</p>
-        <button onClick={handleDeleteClick}>삭제</button>
+        <button onClick={handleDelete}>삭제</button>
       </div>
     </div>
   );

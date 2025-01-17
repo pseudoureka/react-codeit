@@ -6,7 +6,7 @@ function formatDate(value) {
 }
 
 function ReviewListItem({ item, onDelete }) {
-  const { title, imgUrl, rating, content, createdAt, updatedAt, id } = item;
+  const { title, imgUrl, rating, content, createdAt, id } = item;
 
   const handleDelete = () => onDelete(id);
 

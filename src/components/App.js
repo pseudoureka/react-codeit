@@ -1,7 +1,7 @@
-import { set } from "date-fns";
 import { getFoods } from "../api";
 import FoodList from "./FoodList";
 import { useEffect, useState } from "react";
+import FoodForm from "./FoodForm";
 
 const LIMIT = 6;
 
@@ -60,10 +60,11 @@ function App() {
     <div>
       <button onClick={handleNewestClick}>최신순</button>
       <button onClick={handleCalorieClick}>칼로리순</button>
-      <form onSubmit={handleSearchSubmit}>
+      <form style={{ margin: "10px 0" }} onSubmit={handleSearchSubmit}>
         <input name="search" />
         <button type="submit">검색</button>
       </form>
+      <FoodForm />
       <FoodList items={sortedItems} onDelete={handleDelete} />
       {cursor && (
         <button disabled={isLoading} onClick={handleLoadMore}>

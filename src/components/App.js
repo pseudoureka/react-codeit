@@ -1,4 +1,4 @@
-import { getReviews } from "../api";
+import { createReview, getReviews, updateReview } from "../api";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
 import { useEffect, useState } from "react";
@@ -51,8 +51,15 @@ function App() {
     handleLoad({ order, offset, limit: LIMIT });
   };
 
-  const handleSubmitSuccess = (review) => {
+  const handleCreateSuccess = (review) => {
     setItems((prevItems) => [review, ...prevItems]);
+  };
+
+  const handleUpdateSuccess = (review) => {
+    setItems((prevItems) => {
+      const splitIdx = prevItems.findIndex((item) => item.id === review.id);
+      return [...prevItems.slice(0, splitIdx), review, ...prevItems.slice(splitIdx + 1)];
+    });
   };
 
   useEffect(() => {
@@ -63,8 +70,14 @@ function App() {
     <div>
       <button onClick={handleNewestClick}>최신순</button>
       <button onClick={handleRatingClick}>별점순</button>
-      <ReviewForm onSubmitSuccess={handleSubmitSuccess} />
-      <ReviewList items={sortedItems} onDelete={handleDelete} />
+      <ReviewForm onSubmitSuccess={handleCreateSuccess} onSubmit={createReview} />
+      <ReviewList
+        items={sortedItems}
+        onDelete={handleDelete}
+        onSubmitSuccess={handleUpdateSuccess}
+        onUpdate={updateReview}
+        onUpdateSuccess={handleUpdateSuccess}
+      />
       {hasNext && (
         <button onClick={handleLoadMore} disabled={isLoading}>
           더보기

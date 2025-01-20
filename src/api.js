@@ -15,3 +15,13 @@ export async function createReview(formData) {
   const body = await response.json();
   return body;
 }
+
+export async function updateReview(id, formData) {
+  const response = await fetch(`https://learn.codeit.kr/8887/film-reviews/${id}`, {
+    method: "PUT",
+    body: formData,
+  });
+  if (!response.ok) throw new Error("리뷰를 수정하는데 실패했습니다.");
+  const body = await response.json();
+  return body;
+}

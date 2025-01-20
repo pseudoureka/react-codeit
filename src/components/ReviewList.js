@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import "./ReviewList.css";
+import { Rating } from "./Rating";
 
 function formatDate(value) {
   return format(value, "yyyy-MM-dd");
@@ -15,7 +16,7 @@ function ReviewListItem({ item, onDelete }) {
       <img className="ReviewListItem-img" src={imgUrl} alt={title} />
       <div>
         <h1>{title}</h1>
-        <p>{rating}</p>
+        <Rating value={rating} />
         <p>{formatDate(createdAt)}</p>
         <p>{content}</p>
         <button onClick={handleDelete}>삭제</button>

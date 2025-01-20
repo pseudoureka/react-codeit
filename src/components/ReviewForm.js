@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ReviewForm.css";
 import FileInput from "./FileInput";
 import RatingInput from "./RatingInput";
+import { createReview } from "../api";
 
 const INITIAL_VALUES = {
   title: "",
@@ -10,8 +11,10 @@ const INITIAL_VALUES = {
   imgFile: null,
 };
 
-function ReviewForm() {
-  const [values, setValues] = useState(INITIAL_VALUES);
+function ReviewForm({ initialValues = INITIAL_VALUES, onSubmitSuccess, onCancel, initialPreview }) {
+  const [values, setValues] = useState(initialValues);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const { title, rating, content, imgFile } = values;
 
@@ -27,14 +30,38 @@ function ReviewForm() {
     handleChange(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, rating, content });
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("rating", rating);
+    formData.append("content", content);
+    formData.append("imgFile", imgFile);
+
+    let result;
+    try {
+      setIsSubmitting(true);
+      setError(null);
+      result = await createReview(formData);
+    } catch (e) {
+      setError(e);
+      return;
+    } finally {
+      setIsSubmitting(false);
+    }
+    const { review } = result;
+    onSubmitSuccess(review);
+    setValues(initialValues);
   };
 
   return (
     <form className="ReviewForm" onSubmit={handleSubmit}>
-      <FileInput name="imgFile" value={imgFile} onChange={handleChange} />
+      <FileInput
+        name="imgFile"
+        value={imgFile}
+        onChange={handleChange}
+        initialPreview={initialPreview}
+      />
       <input name="title" onChange={handleInputChange} type="text" value={values.title} />
       <RatingInput
         name="rating"
@@ -45,7 +72,11 @@ function ReviewForm() {
         max={5}
       />
       <textarea name="content" onChange={handleInputChange} value={values.content}></textarea>
-      <button type="submit">확인</button>
+      {onCancel && <button onCancel={onCancel}>취소</button>}
+      <button disabled={isSubmitting} type="submit">
+        확인
+      </button>
+      {error?.message && <p>{error.message}</p>}
     </form>
   );
 }

@@ -38,10 +38,15 @@ function FoodList({ items, onDelete }) {
         if (editingId === item.id) {
           const { id, imgUrl, title, calorie, content } = item;
           const initialValues = { title, calorie, content };
+          const initialPreview = imgUrl;
 
           return (
             <li key={item.id}>
-              <FoodForm onCancel={handleCancel} initialValues={initialValues} />
+              <FoodForm
+                onCancel={handleCancel}
+                initialValues={initialValues}
+                initialPreview={initialPreview}
+              />
             </li>
           );
         }

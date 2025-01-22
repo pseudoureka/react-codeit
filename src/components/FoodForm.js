@@ -9,7 +9,7 @@ const INITIAL_VALUES = {
   content: "",
   imgFile: null,
 };
-function FoodForm({ onCancel, initialValues = INITIAL_VALUES, onSubmitSuccess }) {
+function FoodForm({ onCancel, initialValues = INITIAL_VALUES, onSubmitSuccess, initialPreview }) {
   const [values, setValues] = useState(initialValues);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState(null);
@@ -55,7 +55,12 @@ function FoodForm({ onCancel, initialValues = INITIAL_VALUES, onSubmitSuccess })
 
   return (
     <form className="FoodForm" onSubmit={handleSubmit}>
-      <FileInput name="imgFile" value={imgFile} onChange={handleChange} />
+      <FileInput
+        name="imgFile"
+        value={imgFile}
+        onChange={handleChange}
+        initialPreview={initialPreview}
+      />
       <input name="title" type="text" value={title} onChange={handleInputChange} />
       <input name="calorie" type="number" value={calorie} onChange={handleInputChange} />
       <input name="content" type="text" value={content} onChange={handleInputChange} />

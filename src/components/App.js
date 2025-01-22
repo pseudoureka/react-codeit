@@ -57,6 +57,10 @@ function App() {
     handleLoad({ order, cursor: "", search, limit: LIMIT });
   }, [order, search]);
 
+  const handleCreateSuccess = (food) => {
+    setItems((prevItems) => [food, ...prevItems]);
+  };
+
   return (
     <div>
       <button onClick={handleNewestClick}>최신순</button>
@@ -65,7 +69,7 @@ function App() {
         <input name="search" />
         <button type="submit">검색</button>
       </form>
-      <FoodForm />
+      <FoodForm onSubmitSuccess={handleCreateSuccess} />
       <FoodList items={sortedItems} onDelete={handleDelete} />
       {cursor && (
         <button disabled={isLoading} onClick={handleLoadMore}>

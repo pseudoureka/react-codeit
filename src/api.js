@@ -25,3 +25,12 @@ export async function updateReview(id, formData) {
   const body = await response.json();
   return body;
 }
+
+export async function deleteReview(id) {
+  const response = await fetch(`https://learn.codeit.kr/8887/film-reviews/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) throw new Error("리뷰를 삭제하는데 실패했습니다.");
+  const body = await response.json();
+  return body;
+}

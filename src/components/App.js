@@ -1,4 +1,4 @@
-import { deleteFood, getFoods } from "../api";
+import { createFood, deleteFood, getFoods, updateFood } from "../api";
 import FoodList from "./FoodList";
 import { useEffect, useState } from "react";
 import FoodForm from "./FoodForm";
@@ -61,6 +61,13 @@ function App() {
     setItems((prevItems) => [food, ...prevItems]);
   };
 
+  const handleUpdateSuccess = (food) => {
+    setItems((prevItems) => {
+      const splitIdx = prevItems.findIndex((item) => item.id === food.id);
+      return [...prevItems.slice(0, splitIdx), food, ...prevItems.slice(splitIdx + 1)];
+    });
+  };
+
   return (
     <div>
       <button onClick={handleNewestClick}>최신순</button>
@@ -69,8 +76,13 @@ function App() {
         <input name="search" />
         <button type="submit">검색</button>
       </form>
-      <FoodForm onSubmitSuccess={handleCreateSuccess} />
-      <FoodList items={sortedItems} onDelete={handleDelete} />
+      <FoodForm onSubmitSuccess={handleCreateSuccess} onSubmit={createFood} />
+      <FoodList
+        items={sortedItems}
+        onDelete={handleDelete}
+        onUpdate={updateFood}
+        onUpdateSuccess={handleUpdateSuccess}
+      />
       {cursor && (
         <button disabled={isLoading} onClick={handleLoadMore}>
           더보기

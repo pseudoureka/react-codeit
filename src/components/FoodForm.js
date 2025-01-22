@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./FoodForm.css";
 import FileInput from "./FileInput";
-import { createFood } from "../api";
 
 const INITIAL_VALUES = {
   title: "",
@@ -9,7 +8,13 @@ const INITIAL_VALUES = {
   content: "",
   imgFile: null,
 };
-function FoodForm({ onCancel, initialValues = INITIAL_VALUES, onSubmitSuccess, initialPreview }) {
+function FoodForm({
+  onCancel,
+  initialValues = INITIAL_VALUES,
+  onSubmitSuccess,
+  initialPreview,
+  onSubmit,
+}) {
   const [values, setValues] = useState(initialValues);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState(null);
@@ -41,7 +46,7 @@ function FoodForm({ onCancel, initialValues = INITIAL_VALUES, onSubmitSuccess, i
     try {
       setIsLoading(true);
       setLoadingError(null);
-      result = await createFood(formData);
+      result = await onSubmit(formData);
     } catch (e) {
       setLoadingError(e);
       return;

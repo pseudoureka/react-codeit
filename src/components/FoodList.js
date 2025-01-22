@@ -27,7 +27,7 @@ function FoodListItem({ item, onDelete, onEdit }) {
   );
 }
 
-function FoodList({ items, onDelete }) {
+function FoodList({ items, onDelete, onUpdate, onUpdateSuccess }) {
   const [editingId, setEditingId] = useState(null);
 
   const handleCancel = () => setEditingId(null);
@@ -40,12 +40,21 @@ function FoodList({ items, onDelete }) {
           const initialValues = { title, calorie, content };
           const initialPreview = imgUrl;
 
+          const handleUpdate = (formData) => onUpdate(id, formData);
+
+          const handleUpdateSuccess = (food) => {
+            onUpdateSuccess(food);
+            setEditingId(null);
+          };
+
           return (
             <li key={item.id}>
               <FoodForm
                 onCancel={handleCancel}
                 initialValues={initialValues}
                 initialPreview={initialPreview}
+                onSubmit={handleUpdate}
+                onSubmitSuccess={handleUpdateSuccess}
               />
             </li>
           );

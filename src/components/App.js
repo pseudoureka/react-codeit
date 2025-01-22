@@ -19,7 +19,9 @@ function App() {
   const handleCalorieClick = () => setOrder("calorie");
 
   const handleDelete = async (id) => {
-    await deleteFood(id);
+    const result = await deleteFood(id);
+    if (!result) return;
+
     const newItems = items.filter((item) => item.id !== id);
     setItems(newItems);
   };

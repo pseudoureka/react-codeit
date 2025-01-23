@@ -2,7 +2,7 @@ import { createReview, deleteReview, getReviews, updateReview } from "../api";
 import useAsync from "./hooks/useAsync";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const LIMIT = 6;
 
@@ -25,20 +25,23 @@ function App() {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  const handleLoad = async (options) => {
-    let results = await getReviewsAsync(options);
-    if (!results) return;
+  const handleLoad = useCallback(
+    async (options) => {
+      let results = await getReviewsAsync(options);
+      if (!results) return;
 
-    const { reviews, paging } = results;
+      const { reviews, paging } = results;
 
-    if (options.offset === 0) {
-      setItems(reviews);
-    } else {
-      setItems((prevItems) => [...prevItems, ...reviews]);
-    }
-    setOffset(options.offset + reviews.length);
-    setHasNext(paging.hasNext);
-  };
+      if (options.offset === 0) {
+        setItems(reviews);
+      } else {
+        setItems((prevItems) => [...prevItems, ...reviews]);
+      }
+      setOffset(options.offset + reviews.length);
+      setHasNext(paging.hasNext);
+    },
+    [getReviewsAsync]
+  );
 
   const handleLoadMore = () => {
     handleLoad({ order, offset, limit: LIMIT });
@@ -57,7 +60,7 @@ function App() {
 
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT });
-  }, [order]);
+  }, [order, handleLoad]);
 
   return (
     <div>

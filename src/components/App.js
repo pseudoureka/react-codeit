@@ -1,4 +1,5 @@
 import { createReview, deleteReview, getReviews, updateReview } from "../api";
+import LocaleContext from "./context/LocaleContext";
 import useAsync from "./hooks/useAsync";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
@@ -63,24 +64,26 @@ function App() {
   }, [order, handleLoad]);
 
   return (
-    <div>
-      <button onClick={handleNewestClick}>최신순</button>
-      <button onClick={handleRatingClick}>별점순</button>
-      <ReviewForm onSubmitSuccess={handleCreateSuccess} onSubmit={createReview} />
-      <ReviewList
-        items={sortedItems}
-        onDelete={handleDelete}
-        onSubmitSuccess={handleUpdateSuccess}
-        onUpdate={updateReview}
-        onUpdateSuccess={handleUpdateSuccess}
-      />
-      {hasNext && (
-        <button onClick={handleLoadMore} disabled={isLoading}>
-          더보기
-        </button>
-      )}
-      {error?.message && <p>{error.message}</p>}
-    </div>
+    <LocaleContext.Provider value={"ko"}>
+      <div>
+        <button onClick={handleNewestClick}>최신순</button>
+        <button onClick={handleRatingClick}>별점순</button>
+        <ReviewForm onSubmitSuccess={handleCreateSuccess} onSubmit={createReview} />
+        <ReviewList
+          items={sortedItems}
+          onDelete={handleDelete}
+          onSubmitSuccess={handleUpdateSuccess}
+          onUpdate={updateReview}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
+        {hasNext && (
+          <button onClick={handleLoadMore} disabled={isLoading}>
+            더보기
+          </button>
+        )}
+        {error?.message && <p>{error.message}</p>}
+      </div>
+    </LocaleContext.Provider>
   );
 }
 

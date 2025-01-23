@@ -2,15 +2,15 @@ import { format } from "date-fns";
 import "./ReviewList.css";
 import { Rating } from "./Rating";
 import ReviewForm from "./ReviewForm";
-import { useContext, useState } from "react";
-import LocaleContext from "./context/LocaleContext";
+import { useState } from "react";
+import { useLocale } from "./context/LocaleContext";
 
 function formatDate(value) {
   return format(value, "yyyy-MM-dd");
 }
 
 function ReviewListItem({ item, onDelete, onEdit }) {
-  const locale = useContext(LocaleContext);
+  const locale = useLocale();
   const { title, imgUrl, rating, content, createdAt, id } = item;
 
   const handleDelete = () => onDelete(id);
